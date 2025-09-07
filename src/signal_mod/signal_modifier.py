@@ -17,7 +17,7 @@ class SignalModifier:
         noise = np.random.normal(0, np.sqrt(noise_power), self._original_signal.size)
         self._modified_signal = np.add(self._modified_signal, noise)
 
-    def add_component(self, k: int):
+    def add_component(self, k: float):
         frequencies = k*self._time
         amplitude = np.max(self._original_signal)/5
         chirp_component = amplitude * np.sin(2*np.pi*frequencies*self._time)
