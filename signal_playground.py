@@ -21,17 +21,17 @@ modifier.add_offset(1e-6)
 modifier.add_noise(5)
 modifier.add_component(0.3)
 
-fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
-time_axis = np.linspace(0, len(raw_signal)/SAMPLING_FREQUENCY, len(raw_signal))
-ax1.plot(time_axis, modifier.get_original_signal())
-ax2.plot(time_axis, modifier.get_modified_signal())
-ax2.set_xlabel("Time [s]")
-plt.show()
+# fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
+# time_axis = np.linspace(0, len(raw_signal)/SAMPLING_FREQUENCY, len(raw_signal))
+# ax1.plot(time_axis, modifier.get_original_signal())
+# ax2.plot(time_axis, modifier.get_modified_signal())
+# ax2.set_xlabel("Time [s]")
+# plt.show()
 
-analytical_analyser = AnalyticalAnalyser(modifier.get_original_signal())
-wv = analytical_analyser.wigner_ville_distribution()
+# analytical_analyser = AnalyticalAnalyser(modifier.get_original_signal())
+# wv = analytical_analyser.wigner_ville_distribution()
 
-wv.plot(kind='contour', show_tf=True)
+# wv.plot(kind='contour', show_tf=True)
 
 non_analytical_analyser = NonAnalyticalAnalyser(modifier.get_original_signal())
 
@@ -46,7 +46,7 @@ plt.grid()
 plt.show()  
 
 
-f, t, Sxx = non_analytical_analyser.spectrogram(window_type='boxcar', nperseg=256, noverlap=128)
+f, t, Sxx = non_analytical_analyser.spectrogram(window_type='boxcar', nperseg=50, noverlap=25)
 Sxx_dB = 10*np.log10(Sxx + 1e-12)
 
 plt.figure(figsize=(8, 4))
