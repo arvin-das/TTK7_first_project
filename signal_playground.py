@@ -1,6 +1,7 @@
 import numpy as np
 from src.signal_mod.signal_modifier import SignalModifier
 from src.transforms.analytical import AnalyticalAnalyser
+from src.transforms.non_analytical import NonAnalyticalAnalyser
 import matplotlib.pyplot as plt
 
 SAMPLING_FREQUENCY = 100 # found in signal generation script
@@ -32,3 +33,27 @@ wv = analytical_analyser.wigner_ville_distribution()
 
 wv.plot(kind='contour', show_tf=True)
 
+non_analytical_analyser = NonAnalyticalAnalyser(modifier.get_original_signal())
+
+fft_axis, fft_values = non_analytical_analyser.fast_fourier()
+
+plt.figure()
+plt.plot(fft_axis,  np.abs(fft_values))
+plt.xlabel("Frequency (Hz)")
+plt.ylabel("Magnitude")
+plt.title("FFT of the signal")
+plt.grid()
+plt.show()  
+
+
+f, t, Sxx = non_analytical_analyser.spectrogram(window_type='boxcar', nperseg=256, noverlap=128)
+Sxx_dB = 10*np.log10(Sxx + 1e-12)
+
+plt.figure(figsize=(8, 4))
+plt.pcolormesh(t, f, Sxx_dB, shading='gouraud')
+plt.ylabel('Frequency [Hz]')
+plt.xlabel('Time [s]')
+cbar = plt.colorbar()
+cbar.set_label('Power spectral density [dB/Hz]')
+plt.tight_layout()
+plt.show()
