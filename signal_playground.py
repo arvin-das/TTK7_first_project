@@ -43,7 +43,10 @@ plt.grid()
 plt.show()
 
 wv = analytical_analyser.wigner_ville_distribution()
-wv.plot(kind='contour', show_tf=True)
+wv.plot(kind='cmap', show_tf=True)
+
+
+
 
 
 sampling_period = 1/SAMPLING_FREQUENCY

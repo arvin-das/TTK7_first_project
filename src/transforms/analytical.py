@@ -10,6 +10,7 @@ class AnalyticalAnalyser:
         return signal_hilbert
     
     def wigner_ville_distribution(self):
-        analysis = WignerVilleDistribution(self._signal)
+        hilbert_signal = self.hilbert_transform()
+        analysis = WignerVilleDistribution(hilbert_signal)
         analysis.run()
         return analysis
