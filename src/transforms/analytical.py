@@ -1,4 +1,4 @@
-from scipy import signal
+from scipy.signal import hilbert
 from tftb.processing import WignerVilleDistribution
 
 class AnalyticalAnalyser:
@@ -6,7 +6,8 @@ class AnalyticalAnalyser:
         self._signal = signal
     
     def hilbert_transform(self):
-        return signal.hilbert(self._signal)
+        signal_hilbert = hilbert(self._signal)
+        return signal_hilbert
     
     def wigner_ville_distribution(self):
         analysis = WignerVilleDistribution(self._signal)
