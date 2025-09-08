@@ -69,7 +69,8 @@ cbar.set_label('Power spectral density [dB/Hz]')
 plt.tight_layout()
 plt.show()
 
-f, t, Zxx = non_analytical_analyser.compute_stft(window_type='boxcar', nperseg=100, noverlap=50, Fs = SAMPLING_FREQUENCY)
+f, t, Zxx = non_analytical_analyser.compute_stft(window_type='boxcar', nperseg=20, 
+                                                 noverlap=10, Fs = SAMPLING_FREQUENCY, nfft=512)
 Zxx_db = 20*np.log10(np.abs(Zxx) + EPSILON)
 
 plt.pcolormesh(t, f, Zxx_db, shading="gouraud")
@@ -83,13 +84,19 @@ stft = non_analytical_analyser.short_time_fourier()
 stft.plot()
 
 
-cwtmatr, freqs = non_analytical_analyser.wavelet_transform()
+wavelet_list = ["cmor0.5-1.0","cgau3", "shan2-1.0", "fbsp2-1.0-1.5", "morl", "gaus2", "mexh"]
+# list over diffrent wavelets we can use. The last 3 are real-valued wavelets while the first 4 are complex-valued wavelets.
+
+# Fmax should be changed according to the mother wavlet. some wavlet allow much higher frequencies than others.
+cwtmatr, freqs, time = non_analytical_analyser.wavelet_transform(wavelet_type=wavelet_list[0], fmax=51, 
+                                                                 num_freqs=100, method ="conv")    
 fig, axs = plt.subplots(1, 1)
-pcm = axs.pcolormesh(time_axis, freqs, cwtmatr)
+pcm = axs.pcolormesh(time, freqs, cwtmatr)
 axs.set_yscale("log")
 axs.set_xlabel("Time (s)")
 axs.set_ylabel("Frequency (Hz)")
 axs.set_title("Continuous Wavelet Transform (Scaleogram)")
 fig.colorbar(pcm, ax=axs)
 plt.show()
+
 
